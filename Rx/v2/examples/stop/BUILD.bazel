@@ -1,0 +1,7 @@
+load("@rules_cc//cc:defs.bzl", "cc_binary")
+
+cc_binary(
+    name = "stop",
+    srcs = ["main.cpp"],
+    deps = ["//Rx/v2"],
+)
