@@ -46,7 +46,12 @@ namespace util {
 
 template<class T> using value_type_t = typename std::decay<T>::type::value_type;
 template<class T> using decay_t = typename std::decay<T>::type;
+#if _HAS_CXX17
+template<class... TN> using invoke_result_t = typename std::invoke_result_t<TN...>::type;
+template<class... TN> using result_of_t [[deprecated("Use invoke_result_t")]] = typename std::result_of<TN...>::type;
+#else
 template<class... TN> using result_of_t = typename std::result_of<TN...>::type;
+#endif
 
 template<class T, std::size_t size>
 std::vector<T> to_vector(const T (&arr) [size]) {
@@ -1013,7 +1018,11 @@ struct is_hashable<T,
     typename rxu::types_checked_from<
         typename filtered_hash<T>::result_type,
         typename filtered_hash<T>::argument_type,
+#if _HAS_CXX17
+        typename std::invoke_result<filtered_hash<T>(T)>::type>::type>
+#else
         typename std::result_of<filtered_hash<T>(T)>::type>::type>
+#endif
     : std::true_type {};
 
 }
