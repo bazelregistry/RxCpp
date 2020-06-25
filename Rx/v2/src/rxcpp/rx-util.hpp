@@ -50,6 +50,7 @@ template<class T> using decay_t = typename std::decay<T>::type;
 template<class... TN> using invoke_result_t = typename std::invoke_result_t<TN...>::type;
 template<class... TN> using result_of_t [[deprecated("Use invoke_result_t")]] = typename std::result_of<TN...>::type;
 #else
+template<class... TN> using invoke_result_t = typename std::result_of<TN...>::type;
 template<class... TN> using result_of_t = typename std::result_of<TN...>::type;
 #endif
 
