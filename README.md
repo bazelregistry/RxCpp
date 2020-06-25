@@ -1,6 +1,6 @@
 The Reactive Extensions for C++ (__RxCpp__) is a library of algorithms for values-distributed-in-time. The [__Range-v3__](https://github.com/ericniebler/range-v3) library does the same for values-distributed-in-space.
 
-Platform    | Status | 
+Platform    | Status |
 ----------- | :------------ |
 Windows | [![Windows Status](http://img.shields.io/appveyor/ci/kirkshoop/RxCpp-446.svg?style=flat-square)](https://ci.appveyor.com/project/kirkshoop/rxcpp-446)
 Linux & OSX | [![Linux & Osx Status](http://img.shields.io/travis/ReactiveX/RxCpp.svg?style=flat-square)](https://travis-ci.org/ReactiveX/RxCpp)
@@ -71,7 +71,7 @@ int main()
     //
     // recover lines of text from byte stream
     //
-    
+
     auto removespaces = [](string s){
         s.erase(remove_if(s.begin(), s.end(), ::isspace), s.end());
         return s;
@@ -159,7 +159,7 @@ To install RxCpp into your OS you need to follow standart procedure:
 mkdir build
 cd build
 cmake ..
-make install 
+make install
 ```
 
 If you're using the vcpkg dependency manager, you can install RxCpp using a single one-line command:
@@ -172,12 +172,39 @@ Vcpkg will acquire RxCpp, build it from source in your computer, and provide CMa
 
 See the [vcpkg repository](https://github.com/Microsoft/vcpkg) for more information.
 
+Alternatively RxCpp has [Bazel](https://bazel.build) support.
+
+Add this to your WORKSPACE.
+
+```python
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+http_archive(
+    name = "bazelregistry_rxcpp",
+    strip_prefix = "RxCpp-12bbb70a05d26fac722ba5e1cf57eb4f59845e05",
+    urls = ["https://github.com/bazelregistry/RxCpp/archive/12bbb70a05d26fac722ba5e1cf57eb4f59845e05.zip"],
+    sha256 = "de1da3aaf419346133928eb9b7069d31b5e87c104b530b087e964e5cf171dbfe",
+)
+```
+
 # Importing
 
 After you have successfully installed RxCpp you can import it into any project by simply adding to your CMakeLists.txt:
 ```cmake
 find_package(rxcpp CONFIG)
-``` 
+```
+
+Or if using Bazel add `@bazelregistry_rxcpp//Rx/v2` as a dependency to your `cc_*` target.
+
+```python
+load("@rules_cc//cc:defs.bzl", "cc_binary")
+
+cc_binary(
+    name = "example",
+    srcs = ["example.cpp"],
+    deps = ["@bazelregistry_rxcpp//Rx/v2"],
+)
+```
 
 # Building RxCpp Unit Tests
 
@@ -262,4 +289,4 @@ When Doxygen+Graphviz is installed, CMake creates a special build task named `do
 Before submitting a feature or substantial code contribution please  discuss it with the team and ensure it follows the product roadmap. Note that all code submissions will be rigorously reviewed and tested by the Rx Team, and only those that meet an extremely high bar for both quality and design/roadmap appropriateness will be merged into the source.
 
 # Microsoft Open Source Code of Conduct
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments. 
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
